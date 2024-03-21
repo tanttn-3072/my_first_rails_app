@@ -2,9 +2,11 @@
 
 <% if @article.errors.any? %>
   <h2>This was created to prevent invalid data to be stored </h2>
-  <% @article.errors.full_messages.each do |msg| %>
-    <li><%= msg %></li>
-  <% end %>  
+  <ul>
+    <% @article.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>  
+  </ul>
 <% end %>
 
 <%= form_with scope: :article, url: articles_path, local: true do |f| %>
@@ -23,4 +25,7 @@
     <%= f.submit %>
   </p>
 <% end %>  
+
+<%= link_to 'Return to articles listing', articles_path%>
+
 
