@@ -21,7 +21,7 @@ class ArticlesController < ApplicationController
  
   # POST /articles or /articles.json
   def create
-    @article = Article.new(params.require(:article).permit(:title, :description))
+    @article = Article.new(article_params)
     @article.save
     if @article.save
       flash[:notice] = "Article was created successfully."
@@ -35,7 +35,7 @@ class ArticlesController < ApplicationController
 
   # PATCH/PUT /articles/1 or /articles/1.json
   def update
-    if @article.update(params.require(:article).permit(:title, :description))
+    if @article.update(article_params)
       flash[:notice] = "Article was updated successfully."
       redirect_to @article
     else
@@ -49,7 +49,7 @@ class ArticlesController < ApplicationController
     redirect_to articles_path #redirect to inđex path, check the routes and see the link (first row)
   end
 
-  private
+  private #only available to this controller
     # Use callbacks to share common setup or constraints between actions.
     def set_article
       @article = Article.find(params[:id])
@@ -57,6 +57,6 @@ class ArticlesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def article_params
-      params.require(:article).permit(:tilte, :description)
+      params.require(:article).permit(:title, :description)
     end
 end
