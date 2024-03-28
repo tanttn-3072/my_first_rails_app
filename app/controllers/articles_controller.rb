@@ -1,9 +1,11 @@
 class ArticlesController < ApplicationController
   before_action :set_article, only: %i[ show edit update destroy ]
+  before_action :require_user, except: %i[show index]
+  before_action :require_same_user, only: %i[ edit update destroy ]
 
   # GET /articles or /articles.json
   def index
-    @articles = Article.all
+    @articles = Article.paginate(page: params[:page], per_page: 5)
   end
 
   # GET /articles/1 or /articles/1.json
@@ -22,7 +24,7 @@ class ArticlesController < ApplicationController
   # POST /articles or /articles.json
   def create
     @article = Article.new(article_params)
-    @article.save
+    @article.user = current_user
     if @article.save
       flash[:notice] = "Article was created successfully."
       redirect_to @article
@@ -59,4 +61,11 @@ class ArticlesController < ApplicationController
     def article_params
       params.require(:article).permit(:title, :description)
     end
+
+    def require_same_user
+      if current_user != @article.user
+        flash[:alert] = "You can only edit or delete your own article"
+        redirect_to @article
+      end  
+    end  
 end
