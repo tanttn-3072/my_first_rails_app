@@ -20,7 +20,7 @@
           <%= link_to "Delete your account", user_path(current_user), class: "nav-link text-danger", data: {turbo_method: :delete, turbo_confirm: 'Are you sure?'} %>
       </li>
       <li class="nav-item">
-        <%= link_to current_user.username, user_path(current_user), class: "nav-link" %>
+       <%= link_to current_user.username, user_path(current_user), class: "nav-link" %> <%= "(Admin)" if current_user.admin? %>
       </li>
       <li class="nav-item">
         <%= link_to "Logout", logout_path, class: "nav-link", data: {turbo_method: :delete}  %>
